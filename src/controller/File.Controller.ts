@@ -7,12 +7,24 @@ import { File } from '../modules/File.Module';
 const saveFile = async (request: express.Request, response: express.Response):Promise<void> => {
   try {
     const upfile = request.file;
-    const username = request.body._username || os.hostname();
+    const _username = request.body._username || os.hostname();
+
+    const result: Array<IFileSchema> = await File.find({ user: _username });
+
+    let total = 0;
+    for (let i = 0; i < result.length; i += 1) {
+      total += result[i].filesize;
+    }
+
+    if (total >= 300) {
+      throw ({'Você atingiu 300 kb de armazenamento'});
+    }
+
     const file = new File({
       name: upfile?.filename,
       path: `${process.cwd()}/uploads/${upfile?.filename}`,
       filesize: upfile?.size * 0.00097656,
-      user: username,
+      user: _username,
     });
     const result = await file.save();
     response.json(result);
@@ -41,4 +53,21 @@ const fileCount = async (request: express.Request, response: express.Response):P
   }
 };
 
-export { saveFile, getFile, fileCount };
+const getUsedStorage = async (request: express.Request, response: express.Response):Promise<void> => {
+  try {
+    const _username = request.query._username || os.hostname();
+    const result: Array<IFileSchema> = await File.find({ user: _username });
+
+    let total = 0;
+    for (let i = 0; i < result.length; i += 1) {
+      total += result[i].filesize;
+    }
+    response.json({ armazenamento: total });
+  } catch (error) {
+    response.json(error);
+  }
+};
+
+export {
+  saveFile, getFile, fileCount, getUsedStorage,
+};
