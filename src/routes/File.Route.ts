@@ -1,7 +1,7 @@
-import { Router, Request } from 'express';
+import { Response, Request, Application } from 'express';
 import fs from 'fs';
 import multer from 'multer';
-import * as controller from '../controller/File.Controller';
+import { FileController } from '../controller/File.Controller';
 
 const storageMulter = multer.diskStorage({
   destination: (req: Request, file, callback: CallableFunction) => {
@@ -22,12 +22,30 @@ const upload = multer({
   limits: { fileSize: 300 / 0.00097656 },
 }).single('upfile');
 
-const routes = Router();
+export class FileRoutes {
+  public fileController: FileController = new FileController();
 
-routes.post('/api/file', upload, controller.saveFile);
-routes.get('/api/file/:_filename', controller.getFile);
-routes.get('/api/file_count/', controller.fileCount);
-routes.get('/api/storage/', controller.getUsedStorage);
-routes.get('/', (req, res) => { res.sendFile(`${process.cwd()}/src/views/index.html`); });
+  public routes(app: Application): void {
+    // Static main page
+    app.route('/')
+      .get((request: Request, response: Response) => {
+        response.status(200).sendFile(`${process.cwd()}/src/views/index.html`);
+      });
 
-export { routes };
+    // Save File route
+    app.route('/api/file')
+      .post(upload, this.fileController.saveFile);
+
+    // Get File route
+    app.route('/api/file/:_filename')
+      .get(this.fileController.getFile);
+
+    // Get number of Files uploads with user name
+    app.route('/api/filecount')
+      .get(this.fileController.fileCount);
+
+    // Get used storage in KB
+    app.route('/api/storage')
+      .get(this.fileController.getUsedStorage);
+  }
+}

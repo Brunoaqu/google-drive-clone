@@ -1,17 +1,34 @@
 import express from 'express';
 import cors from 'cors';
-import { routes } from './routes/File.Route';
+import mongoose from 'mongoose';
+import { FileRoutes } from './routes/File.Route';
 
-const app = express();
+class App {
+  public app: express.Application = express();
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use('/public', express.static(`${process.cwd()}/src/public`));
-app.use('/', routes);
+  public fileRoute: FileRoutes = new FileRoutes();
 
-const port = process.env.PORT || 5000;
+  public mongoUrl: string = process.env.MONGODB_URI || '';
 
-app.listen(port, () => console.log(`Server listening at http://localhost:${port}`));
+  constructor() {
+    this.config();
+    this.mongoSetup();
+    this.fileRoute.routes(this.app);
+  }
 
-export { app };
+  private config():void {
+    this.app.use(cors());
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use('/public', express.static(`${process.cwd()}/src/public`));
+  }
+
+  private mongoSetup():void {
+    mongoose
+      .connect(this.mongoUrl || '')
+      .then(() => { console.log('Connection with mongo database was successful'); })
+      .catch((err) => console.log(err));
+  }
+}
+
+export default new App().app;
