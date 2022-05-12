@@ -24,8 +24,9 @@ const upload = multer({
 
 const routes = Router();
 
-routes.post('/api/save', upload, controller.saveFile);
-routes.get('/api/get', controller.getFile);
+routes.post('/api/file', upload, controller.saveFile);
+routes.get('/api/file/:_filename', controller.getFile);
+routes.get('/api/file_count/', controller.fileCount);
 routes.get('/', (req, res) => { res.sendFile(`${process.cwd()}/src/views/index.html`); });
 
 export { routes };

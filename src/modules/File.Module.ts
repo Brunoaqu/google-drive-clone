@@ -1,16 +1,16 @@
 import { Schema, model } from 'mongoose';
-import { IFile } from './IFile';
+import { IFileSchema } from './IFileSchema';
 
-const FileSchema = new Schema<IFile>(
+const FileSchema = new Schema<IFileSchema>(
   {
     name: { type: String },
     path: { type: String },
-    size: { type: Number },
+    filesize: { type: Number },
     user: { type: String },
   },
   { versionKey: false },
 );
 
-const File = model<IFile>('User', FileSchema);
+const File = model<IFileSchema>('User', FileSchema);
 
 export { File };

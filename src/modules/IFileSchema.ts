@@ -1,6 +1,6 @@
-export interface IFile {
+export interface IFileSchema {
     name: string,
     path: string,
-    size: number,
+    filesize: number,
     user: string
 }

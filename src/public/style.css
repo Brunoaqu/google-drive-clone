@@ -12,7 +12,7 @@ body {
     padding: 0;
     margin-top: 40px;
   }
-  
+
   input {
     display: block;
     position: relative;
@@ -20,6 +20,10 @@ body {
   }
   
   input#button {
+    width: 230px;
+  }
+
+  input#namefield {
     width: 230px;
   }
   
