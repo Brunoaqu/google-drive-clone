@@ -3,6 +3,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import { FileRoutes } from './routes/File.Route';
 
+// Configuração do express
 class App {
   public app: express.Application = express();
 

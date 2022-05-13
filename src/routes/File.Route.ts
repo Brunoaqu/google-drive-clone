@@ -3,8 +3,10 @@ import fs from 'fs';
 import multer from 'multer';
 import { FileController } from '../controller/File.Controller';
 
+// Configuração do Multer
 const storageMulter = multer.diskStorage({
   destination: (req: Request, file, callback: CallableFunction) => {
+    // Cria a pasta de uploads caso ela não exista
     const dir = `${process.cwd()}/uploads`;
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
@@ -19,9 +21,11 @@ const storageMulter = multer.diskStorage({
 
 const upload = multer({
   storage: storageMulter,
+  // 1 KB = 0.00097656 Bytes
   limits: { fileSize: 300 / 0.00097656 },
 }).single('upfile');
 
+// Rotas
 export class FileRoutes {
   public fileController: FileController = new FileController();
 

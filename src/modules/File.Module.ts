@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { IFileSchema } from './IFileSchema';
 
+// Mongoose Schema
 const FileSchema = new Schema<IFileSchema>(
   {
     name: { type: String },

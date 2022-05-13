@@ -9,9 +9,11 @@ export class FileController {
   public async saveFile(request: express.Request, response: express.Response):Promise<void> {
     try {
       const _username = request.body._username || os.hostname();
-      const upfile = request.file;
-      const files: Array<IFileSchema> = await File.find({ user: _username });
       const _path = `${process.cwd()}/uploads/${upfile?.filename}`;
+      const upfile = request.file;
+
+      // Lógica para checar se o arquivo irá estourar o limite de 300kb
+      const files: Array<IFileSchema> = await File.find({ user: _username });
 
       let total = 0;
       for (let i = 0; i < files.length; i += 1) {
@@ -22,12 +24,15 @@ export class FileController {
         const file = new File({
           name: upfile?.filename,
           path: _path,
+          // 1 KB = 0.00097656 Bytes
           filesize: upfile?.size * 0.00097656,
           user: _username,
         });
         const result = await file.save();
         response.status(200).json(result);
       } else {
+        // Caso o teste não passe o arquivo é excluido
+        // A biblioteca multer não possui uma maneira de realizar esse processo sem gastar processamento e espaço
         fs.unlink(_path, (error) => {
           if (error) throw error;
         });
@@ -43,6 +48,7 @@ export class FileController {
     try {
       const result: Array<IFileSchema> = await File.find({ name: request.params._filename });
       const path = fs.createReadStream(result[0].path);
+      // Código que envia o arquivo
       path.pipe(response);
     } catch (error) {
       response.json(error);
@@ -53,6 +59,7 @@ export class FileController {
   public async fileCount(request: express.Request, response: express.Response):Promise<void> {
     try {
       const _username = request.query._username || os.hostname();
+      // Função do mongoose que conta o número de objetos selecionados
       const result = await File.find({ user: _username }).count();
       response.json({ nome: _username, arquivos: result });
     } catch (error) {
