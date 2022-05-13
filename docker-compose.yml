@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  typescript-app:
+    restart: always
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports: 
+      - '5000:5000' 
+    links:
+      - mongoDB
+    depends_on:
+      - mongoDB
+    networks:
+    - node-webapp-network
+  mongoDB:
+    image: mongo
+    restart: always
+    ports: 
+      - '27017:27017'
+    networks:
+      - node-webapp-network
+networks:
+  node-webapp-network:
+    driver: bridge
