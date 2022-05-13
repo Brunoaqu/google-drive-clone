@@ -7,17 +7,40 @@
 
    <body>
       <div class="container">
+
         <h3>
           Please Upload a File ...
         </h3>
+
         <div class="view">
           <h4 id="output"></h4>
           <form enctype="multipart/form-data" method="POST" action="/api/file ">
             <input id="inputfield" type="file" name="upfile">
-            <input id="namefield" type="text" name="_username">
+            <input id="namefield" type="text" name="_username" placeholder="Username(Optional)">
             <input id="button" type="submit" value="Upload">
           </form>
         </div>
+
+        <div class="footer">
+          <p>
+            <strong>POST de um arquivo: </strong>
+            <code>POST /api/file/</code>
+          </p>
+          <p>
+            <strong>GET de um arquivo: </strong>
+            <code>GET /api/file/[nome do arquivo]</code>
+          </p>
+          <p>
+            <strong>GET número de arquivos enviados pelo usuário: </strong>
+            <code>GET /api/filecount?_username=[nome do usuário]</code>
+          </p>
+          <p>
+            <strong>GET espaço utilizado pelo usuário em kb: </strong>
+            <code>GET /api/storage?_username=[nome do usuário]</code>
+          </p>
+          <p>(Se não houver nome de usuário sera utilizado o nome do dispositivo)</p>
+        </div>
+
       </div>
    </body>
 </html>

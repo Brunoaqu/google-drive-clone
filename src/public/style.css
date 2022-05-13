@@ -1,39 +1,47 @@
 /****** Main Styling ******/
 
 body {
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    color: #222;
-    background-color: #ECF0F1;
-    text-align: center;
-  }
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: #222;
+  background-color: #ECF0F1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
   
-  .container {
-    padding: 0;
-    margin-top: 40px;
-  }
+.container {
+  padding: 0;
+  margin-top: 40px;
+}
 
-  input {
-    display: block;
-    position: relative;
-    margin: 10px auto;
-  }
-  
-  input#button {
-    width: 230px;
-  }
+.footer{
+  padding: 0;
+  margin-top: 40px;
+  text-align: left;
+}
 
-  input#namefield {
-    width: 230px;
-  }
-  
-  .view {
-    position:relative;
-    margin: auto;
-    margin-top: 40px;
-    border: 1px  solid  #aaa;
-    padding: 20px;
-    width: 60%;
-    min-width: 400px;
-  }
+input {
+  display: block;
+  position: relative;
+  margin: 10px auto;
+}
+
+input#button {
+  width: 230px;
+}
+
+input#namefield {
+  width: 230px;
+}
+
+.view {
+  position:relative;
+  margin: auto;
+  margin-top: 40px;
+  border: 1px  solid  #aaa;
+  padding: 20px;
+  width: 60%;
+  min-width: 400px;
+}
   
