@@ -12,6 +12,6 @@ const FileSchema = new Schema<IFileSchema>(
   { versionKey: false },
 );
 
-const File = model<IFileSchema>('User', FileSchema);
+const File = model<IFileSchema>('File', FileSchema);
 
 export { File };

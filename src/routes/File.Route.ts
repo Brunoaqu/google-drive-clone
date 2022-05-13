@@ -21,8 +21,7 @@ const storageMulter = multer.diskStorage({
 
 const upload = multer({
   storage: storageMulter,
-  // 1 KB = 0.00097656 Bytes
-  limits: { fileSize: 300 / 0.00097656 },
+  limits: { fileSize: 104857600 },
 }).single('upfile');
 
 // Rotas
